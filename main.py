@@ -1,5 +1,6 @@
 from collections import UserDict
 
+
 class Field:
     def __init__(self, value):
         self.value = value
@@ -7,17 +8,18 @@ class Field:
     def __str__(self):
         return str(self.value)
 
+
 class Name(Field):
     def __init__(self, value):
-         super().__init__(value)
+        super().__init__(value)
 
 
 class Phone(Field):
     def __init__(self, value):
-         if len(value) != 10 or not value.isdigit():
-             raise ValueError("Phone number must be 10 digits long")
-         super().__init__(value)
-         
+        if len(value) != 10 or not value.isdigit():
+            raise ValueError("Phone number must be 10 digits long")
+        super().__init__(value)
+
 
 class Record:
     def __init__(self, name):
@@ -58,9 +60,20 @@ class Record:
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
 
+
 class AddressBook(UserDict):
-    # реалізація класу
-		pass
+    def add_record(self, record):
+        self.data[record.name.value] = record
+
+    def find(self, name):
+        return self.data.get(name)
+
+    def delete(self, name):
+        if name in self.data:
+            self.data.pop(name)
+            return f"Contact {name} deleted"
+        return "Contact not found"
+
 
 def parse_input(user_input):
     """
